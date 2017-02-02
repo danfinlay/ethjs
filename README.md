@@ -51,7 +51,14 @@ npm install --save ethjs
 
 ```js
 const Eth = require('ethjs');
-const eth = new Eth(new Eth.HttpProvider('https://ropsten.infura.io'));
+let eth
+
+if (typeof window.web3 === 'undefined') { // host your own provider
+  eth = new Eth(new Eth.HttpProvider('https://ropsten.infura.io'));
+  
+} else { // or use the injected provider with MetaMask or Mist!
+  eth = new Eth(window.web3.currentProvider);
+}
 
 eth.getBlockByNumber(45300, (err, block) => {
   // result null { ...block data... }
